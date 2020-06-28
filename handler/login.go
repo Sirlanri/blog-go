@@ -23,3 +23,8 @@ func FindCookie(ctx iris.Context) {
 	value := ctx.GetCookie(name) //检索获取cookie
 	ctx.WriteString(value)
 }
+
+//Ifpermission 中间件，判断是否已经登录获得权限
+func Ifpermission(ctx iris.Context) {
+
+}
