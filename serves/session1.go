@@ -48,10 +48,33 @@ func logout(ctx iris.Context) {
 	ctx.WriteString("已退出")
 }
 
+type loginInfor struct {
+	Name     string `json:"name"`
+	Password string `json:"password"`
+}
+
+func loginp(ctx iris.Context) {
+	session1 := sess.Start(ctx)
+	var infor loginInfor
+	if err := ctx.ReadJSON(&infor); err != nil {
+		ctx.StatusCode(iris.StatusBadRequest)
+		ctx.WriteString("非法请求格式")
+		fmt.Println(err.Error())
+		return
+	}
+	if infor.Name == "rico" && infor.Password == "123" {
+		session1.Set("authenticated", true)
+		ctx.WriteString("成功登录")
+		return
+	}
+	ctx.WriteString("验证失败")
+
+}
 func main() {
 	app := iris.New()
 	app.Get("/secret", secret)
 	app.Get("/login", login)
 	app.Get("/logout", logout)
+	app.Post("/loginp", loginp)
 	app.Run(iris.Addr(":8090"))
 }
