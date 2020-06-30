@@ -6,7 +6,6 @@ import (
 
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/hero"
 )
 
 func main() {
@@ -19,9 +18,7 @@ func main() {
 	crs := cors.New(corsOptions)
 	blog := app.Party("/blog", crs).AllowMethods(iris.MethodOptions)
 
-	blog.Get("login/cookies/{name}/{value}", hero.Handler(SetCookie))
-	blog.Get("login/findcookies/{name}", func(ctx iris.Context) {
-		FindCookie(ctx)
-	})
+	blog.Post("rootlogin", RootLogin)
+	app.Run(iris.Addr(":8090"))
 
 }

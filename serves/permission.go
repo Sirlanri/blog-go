@@ -1,4 +1,4 @@
-package main
+package serves
 
 import (
 	"blog-go/structs"
@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/kataras/iris/v12"
 )
 
 //Myhash 计算密码的哈希值
@@ -17,24 +16,20 @@ func Myhash(pw string) string {
 	return after64
 }
 
-//RootLogin 根用户登录
-func RootLogin(ctx iris.Context) {
-	var npjson structs.ResMP
-	ctx.ReadJSON(&npjson)
-	pwFromDB := GetPassword(npjson.Password)
+//RootConfirm 根用户登录
+func RootConfirm(mailAndPw structs.ResMP) int {
+	pwFromDB := GetPassword(mailAndPw.Password)
 
 	if pwFromDB.Name == "" {
 		//如果数据库中没有这个邮箱
-		ctx.StatusCode(403)
-		ctx.WriteString("No")
-	} else {
-		//校验hash之后的密码
-		webpw := Myhash(npjson.Password) //用户输入的密码
-		if webpw == pwFromDB.Password && pwFromDB.Power == 0 {
-			ctx.WriteString("yes") //密码正确并且权限为0
-		} else {
-			ctx.WriteString("wrong") //密码错误或不是root用户
-		}
+		return 1
 	}
+
+	//校验hash之后的密码
+	webpw := Myhash(mailAndPw.Password) //用户输入的密码
+	if webpw == pwFromDB.Password && pwFromDB.Power == 0 {
+		return 0 //密码正确并且权限为0
+	}
+	return 2 //密码错误或不是root用户
 
 }

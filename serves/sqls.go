@@ -1,4 +1,4 @@
-package main
+package serves
 
 import (
 	"blog-go/structs"
@@ -9,8 +9,9 @@ import (
 
 var db *sql.DB
 
+//初始化，自动创建db指针
 func init() {
-	println("自动初始化数据库函数")
+	println("init自动初始化数据库函数")
 	ConnectDB()
 }
 
@@ -34,9 +35,4 @@ func GetPassword(mail string) structs.Gotnp {
 
 	return npjson
 
-}
-
-func main() {
-	ConnectDB()
-	GetPassword("mail@ri-c.cn")
 }
