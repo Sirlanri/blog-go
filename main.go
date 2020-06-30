@@ -2,6 +2,7 @@ package main
 
 import (
 	. "blog-go/handler"
+	_ "blog-go/serves"
 
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris/v12"
