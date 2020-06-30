@@ -8,8 +8,9 @@ import (
 )
 
 var (
-	cookieNameForSessionID = "mycookiesessionnameid"
-	sess                   = sessions.New(sessions.Config{Cookie: cookieNameForSessionID})
+	cookieNameForSessionID = "adminid"
+	sess                   = sessions.New(sessions.Config{
+		Cookie: cookieNameForSessionID})
 )
 
 func secret(ctx iris.Context) {
@@ -45,6 +46,8 @@ func logout(ctx iris.Context) {
 	session := sess.Start(ctx)
 	//撤销验证
 	session.Set("authenticated", false)
+	//删除session
+	sess.DestroyByID("adminid")
 	ctx.WriteString("已退出")
 }
 
@@ -70,11 +73,32 @@ func loginp(ctx iris.Context) {
 	ctx.WriteString("验证失败")
 
 }
+
+//顺便保存点内容
+func flashTest(ctx iris.Context) {
+	s := sessions.Get(ctx)
+
+	s.SetFlash("name", "Rico")
+	ctx.WriteString("写入名字已完成~")
+}
+func getFlash(ctx iris.Context) {
+	s := sessions.Get(ctx)
+	name := s.GetFlashString("name")
+	if name == "" {
+		ctx.WriteString("name为空")
+	} else {
+		ctx.Writef("你好鸭%s", name)
+	}
+
+}
+
 func main() {
 	app := iris.New()
 	app.Get("/secret", secret)
 	app.Get("/login", login)
 	app.Get("/logout", logout)
 	app.Post("/loginp", loginp)
+	app.Get("/setflash", flashTest)
+	app.Get("/getflash", getFlash)
 	app.Run(iris.Addr(":8090"))
 }
