@@ -16,6 +16,7 @@ var (
 		Cookie: cookieName})
 )
 
+//RootLogin -handler root用户登录的
 func RootLogin(ctx iris.Context) {
 	session := rootsess.Start(ctx)
 	fmt.Println(session)
@@ -26,7 +27,6 @@ func RootLogin(ctx iris.Context) {
 	result := RootConfirm(npjson)
 	if result == 0 {
 		ctx.WriteString("yes")
-		return
 	}
 	if result == 1 {
 		//如果数据库中没有这个邮箱
@@ -38,8 +38,7 @@ func RootLogin(ctx iris.Context) {
 		return
 	}
 
-	//设置验证状态true
-	session.Set("authenticated", true)
-	println(session)
-	ctx.WriteString("成功登录")
+	//设置验证状态root为true
+	session.Set("root", true)
+	println("root用户登录，授予权限")
 }

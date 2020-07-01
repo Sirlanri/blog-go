@@ -31,5 +31,4 @@ func RootConfirm(mailAndPw structs.ResMP) int {
 		return 0 //密码正确并且权限为0
 	}
 	return 2 //密码错误或不是root用户
-
 }

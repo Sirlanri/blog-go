@@ -19,6 +19,7 @@ func main() {
 	blog := app.Party("/blog", crs).AllowMethods(iris.MethodOptions)
 
 	blog.Post("rootlogin", RootLogin)
+	blog.Post("newfriend", NewFriend)
 	app.Run(iris.Addr(":8090"))
 
 }
