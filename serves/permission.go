@@ -18,7 +18,7 @@ func Myhash(pw string) string {
 
 //RootConfirm 根用户登录
 func RootConfirm(mailAndPw structs.ResMP) int {
-	pwFromDB := GetPassword(mailAndPw.Password)
+	pwFromDB := GetPassword(mailAndPw.Mail)
 
 	if pwFromDB.Name == "" {
 		//如果数据库中没有这个邮箱

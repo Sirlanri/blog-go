@@ -18,6 +18,7 @@ var (
 
 //RootLogin -handler root用户登录的
 func RootLogin(ctx iris.Context) {
+	println("执行登录程序")
 	session := rootsess.Start(ctx)
 	fmt.Println(session)
 
@@ -30,7 +31,7 @@ func RootLogin(ctx iris.Context) {
 	}
 	if result == 1 {
 		//如果数据库中没有这个邮箱
-		ctx.WriteString("No")
+		ctx.WriteString("no")
 		return
 	}
 	if result == 2 {
@@ -41,4 +42,16 @@ func RootLogin(ctx iris.Context) {
 	//设置验证状态root为true
 	session.Set("root", true)
 	println("root用户登录，授予权限")
+}
+
+//RootLogout -handler root用户退出登录，完成后返回'done'
+func RootLogout(ctx iris.Context) {
+	println("注销用户登录状态")
+	session := rootsess.Start(ctx)
+	//撤销权限
+	session.Set("root", false)
+	//删除session
+	sess.DestroyByID("admin")
+	//注销成功，返回done
+	ctx.WriteString("done")
 }

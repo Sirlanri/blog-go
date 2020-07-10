@@ -10,16 +10,22 @@ import (
 
 func main() {
 	app := iris.New()
+	app.OnErrorCode(iris.StatusNotFound, notFound)
 
 	corsOptions := cors.Options{
 		AllowedOrigins:   []string{"*"}, //允许全部跨域请求
 		AllowCredentials: true,
 	}
 	crs := cors.New(corsOptions)
-	blog := app.Party("/blog", crs).AllowMethods(iris.MethodOptions)
+	blog := app.Party("blog", crs).AllowMethods(iris.MethodOptions)
 
-	blog.Post("rootlogin", RootLogin)
-	blog.Post("newfriend", NewFriend)
+	blog.Post("/rootlogin", RootLogin)
+	blog.Get("/rootlogout", RootLogout)
+	blog.Post("/newfriend", NewFriend)
 	app.Run(iris.Addr(":8090"))
 
+}
+
+func notFound(ctx iris.Context) {
+	ctx.WriteString("路由错误")
 }

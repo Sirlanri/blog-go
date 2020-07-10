@@ -11,7 +11,6 @@ var db *sql.DB
 
 //初始化，自动创建db指针
 func init() {
-	println("init自动初始化数据库函数")
 	ConnectDB()
 }
 
