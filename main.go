@@ -27,5 +27,6 @@ func main() {
 }
 
 func notFound(ctx iris.Context) {
-	ctx.WriteString("路由错误")
+	println("404-找不到此路由/路径:", ctx.RequestPath(true))
+	ctx.WriteString("路由/请求地址错误")
 }
