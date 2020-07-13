@@ -55,3 +55,20 @@ func RootLogout(ctx iris.Context) {
 	//注销成功，返回done
 	ctx.WriteString("done")
 }
+
+//IsRoot -handler 判断用户是否为root的中间件
+func IsRoot(ctx iris.Context) {
+	sessionNow := sess.Start(ctx)
+	auth, err := sess.Start(ctx).GetBoolean("root")
+	if err != nil {
+		println("权限判断出错", err.Error())
+	}
+	if !auth {
+		ctx.StatusCode(403)
+		return
+	}
+	//权限通过，执行下一个handler
+	ctx.Next()
+	return
+
+}
