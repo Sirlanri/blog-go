@@ -33,5 +33,21 @@ func GetPassword(mail string) structs.Gotnp {
 	row.Scan(&npjson.Name, &npjson.Password, &npjson.Power)
 
 	return npjson
+}
 
+//GetFriendDB 从数据库中获取友链列表
+func GetFriendDB() (friends []structs.Friend) {
+	rows, err := db.Query("select * from friends")
+	if err != nil {
+		println("数据库查询出错-friends", err.Error())
+		return
+	}
+
+	for rows.Next() {
+		var friend structs.Friend
+		rows.Scan(&friend.ID, &friend.PicAddress, &friend.SiteName, &friend.Introduction,
+			&friend.URL, &friend.SSL, &friend.Ping)
+		friends = append(friends, friend)
+	}
+	return
 }
