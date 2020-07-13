@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-func main2() {
+func main3() {
 	fmt.Println(Myhash("123456"))
 }
 

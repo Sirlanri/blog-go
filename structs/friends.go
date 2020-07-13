@@ -10,3 +10,21 @@ type Friend struct {
 	SSL          bool   `json:"ssl"`
 	Ping         int    `json:"ping"`
 }
+
+//ResFriend 添加新友链，从前端接收的数据
+type ResFriend struct {
+	Sitename     string
+	Siteaddress  string
+	Introduction string
+	Ssl          bool
+}
+
+//AfterFriend 添加新友链，处理完的数据，写入数据库
+type AfterFriend struct {
+	Picaddress   string
+	Sitename     string
+	Siteaddress  string
+	Introduction string
+	Ssl          bool
+	Ping         int
+}
