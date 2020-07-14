@@ -2,7 +2,6 @@ package serves
 
 import (
 	"blog-go/structs"
-	"fmt"
 	"regexp"
 	"time"
 
@@ -13,14 +12,14 @@ import (
 //AddFriendServe -Serve 处理友链及ping信息
 func AddFriendServe(friend structs.ResFriend) {
 	url := friend.Siteaddress
-	dropurl := dropHead(url)
+	dropurl := DropHead(url)
 	//得到ping
-	ms := pingms(dropurl)
+	ms := Pingms(dropurl)
 	WriteFriend(friend, ms)
 }
 
-//pingms 传入主机地址，返回ping值
-func pingms(address string) (result int) {
+//Pingms 传入主机地址，返回ping值
+func Pingms(address string) (result int) {
 	pinger, err := ping.NewPinger(address)
 	if err != nil {
 		println(err.Error())
@@ -46,12 +45,11 @@ func pingms(address string) (result int) {
 	totalms := sta[0] + sta[1] + sta[2] + sta[3]
 	totalms.Seconds()
 	result = int(totalms.Milliseconds() / int64(rev))
-	fmt.Print(result)
 	return
 }
 
-//dropHead 删除网址头部的http，返回可以ping的主机地址
-func dropHead(full string) string {
+//DropHead 删除网址头部的http，返回可以ping的主机地址
+func DropHead(full string) string {
 	r, _ := regexp.Compile("http://|https://")
 	after := r.ReplaceAllString(full, "")
 	return after

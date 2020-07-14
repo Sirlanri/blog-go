@@ -22,6 +22,7 @@ func main() {
 	blog.Post("/rootlogin", RootLogin)
 	blog.Get("/rootlogout", RootLogout)
 	blog.Get("/getfriends", GetFriends)
+	blog.Get("/refreshms", Refreshms)
 	blog.Post("/addfriend", IsRoot, AddFriend)
 	blog.Post("/uploadpic", IsRoot, UploadPic)
 	blog.HandleDir("/getpics", "./uploadpics")

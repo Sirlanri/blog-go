@@ -63,3 +63,32 @@ func WriteFriend(f structs.ResFriend, ping int) {
 		println("执行SQL出错", err.Error())
 	}
 }
+
+//GetAllAddress 从数据库获取全部友链，用于手动刷新延迟
+func GetAllAddress() (links []string) {
+	rows, err := db.Query("select url from friends")
+	if err != nil {
+		println("执行select地址SQL出错", err.Error())
+	}
+	for rows.Next() {
+		var link string
+		rows.Scan(&link)
+		links = append(links, link)
+	}
+	return
+}
+
+//Updatems 手动刷新数据后，将数据写入数据库
+func Updatems(datas map[string]int) {
+	tx, _ := db.Begin()
+	for link := range datas {
+		_, err := tx.Exec("update friends set ping=? where url=?", datas[link], link)
+		if err != nil {
+			println("update ms 执行写入错误", err.Error())
+		}
+	}
+	err := tx.Commit()
+	if err != nil {
+		println("commit SQL语句出错", err.Error())
+	}
+}
