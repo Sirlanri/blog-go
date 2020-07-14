@@ -20,9 +20,10 @@ type ResFriend struct {
 	Ssl          bool
 }
 
-//AfterFriend 添加新友链，处理完的数据，写入数据库
-type AfterFriend struct {
-	Picaddress   string
+//ResUpdateFriend 修改友链信息的结构体
+type ResUpdateFriend struct {
+	ID           int
+	PicAddress   string
 	Sitename     string
 	Siteaddress  string
 	Introduction string

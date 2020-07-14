@@ -53,7 +53,7 @@ func RootLogout(ctx iris.Context) {
 	//撤销权限
 	session.Set("root", false)
 	//删除session
-	rootsess.DestroyByID("rootid")
+	//rootsess.DestroyByID("rootid")
 	//注销成功，返回done
 	ctx.WriteString("done")
 }

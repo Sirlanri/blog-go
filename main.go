@@ -22,9 +22,11 @@ func main() {
 	blog.Post("/rootlogin", RootLogin)
 	blog.Get("/rootlogout", RootLogout)
 	blog.Get("/getfriends", GetFriends)
-	blog.Get("/refreshms", Refreshms)
+	blog.Get("/refreshms", IsRoot, Refreshms)
 	blog.Post("/addfriend", IsRoot, AddFriend)
+	blog.Post("/updatefriend", IsRoot, UpdateFriend)
 	blog.Post("/uploadpic", IsRoot, UploadPic)
+	blog.Post("/delfriend", IsRoot, DelFriend)
 	blog.HandleDir("/getpics", "./uploadpics")
 	app.Run(iris.Addr(":8090"))
 

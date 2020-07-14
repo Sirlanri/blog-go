@@ -92,3 +92,20 @@ func Updatems(datas map[string]int) {
 		println("commit SQL语句出错", err.Error())
 	}
 }
+
+//UpdataFriendDB 修改单个友链后，存入数据库
+func UpdataFriendDB(f structs.ResUpdateFriend) {
+	_, err := db.Exec("update friends set sitename=?, introduction=?,url=?,https=?,ping=? where id=? ",
+		f.Sitename, f.Introduction, f.Siteaddress, f.Ssl, f.Ping, f.ID)
+	if err != nil {
+		println("写入friend数据库出错", err.Error())
+	}
+}
+
+//DelFriendDB 删除某条友链，传入id
+func DelFriendDB(id string) {
+	_, err := db.Exec("delete from friends where id=?", id)
+	if err != nil {
+		println("删除friend出错", err.Error())
+	}
+}
