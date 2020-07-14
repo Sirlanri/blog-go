@@ -92,7 +92,7 @@ func getFlash(ctx iris.Context) {
 
 }
 
-func main() {
+func main8() {
 	app := iris.New()
 	app.Get("/secret", secret)
 	app.Get("/login", login)

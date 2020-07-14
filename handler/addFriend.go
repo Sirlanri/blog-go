@@ -17,7 +17,7 @@ func AddFriend(ctx iris.Context) {
 	if err != nil {
 		println("错误-添加友链-前端传入数据错误", err.Error())
 	}
-
+	println("AddFriend Handler处理完毕，转交Serve")
 	serves.AddFriendServe(newFriend)
 }
 
