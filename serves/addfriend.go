@@ -1,21 +1,23 @@
 package serves
 
 import (
+	"blog-go/serves"
 	"blog-go/structs"
 	"fmt"
 	"regexp"
 	"time"
 
+	uuid "github.com/satori/go.uuid"
 	"github.com/sparrc/go-ping"
 )
 
-//AddFriend -Serve 处理友链及ping信息
-func AddFriend(friend structs.Friend) {
-	url := friend.URL
+//AddFriendServe -Serve 处理友链及ping信息
+func AddFriendServe(friend structs.ResFriend) {
+	url := friend.Siteaddress
 	dropurl := dropHead(url)
 	//得到ping
 	ms := pingms(dropurl)
-
+	serves.WriteFriend(friend, ms)
 }
 
 //pingms 传入主机地址，返回ping值
@@ -51,4 +53,12 @@ func dropHead(full string) string {
 	r, _ := regexp.Compile("http://|https://")
 	after := r.ReplaceAllString(full, "")
 	return after
+}
+
+//Createid 为图片生成唯一名称
+func Createid() string {
+	// 创建 UUID v4
+	u1 := uuid.Must(uuid.NewV4(), nil)
+	id := u1.String()
+	return id
 }

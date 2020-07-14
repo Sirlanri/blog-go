@@ -13,6 +13,7 @@ type Friend struct {
 
 //ResFriend 添加新友链，从前端接收的数据
 type ResFriend struct {
+	PicAddress   string
 	Sitename     string
 	Siteaddress  string
 	Introduction string

@@ -4,14 +4,12 @@ import (
 	. "blog-go/serves"
 	"blog-go/structs"
 
-	"fmt"
-
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
 )
 
 var (
-	cookieName = "adminid"
+	cookieName = "rootid"
 	rootsess   = sessions.New(sessions.Config{
 		Cookie: cookieName})
 )
@@ -20,7 +18,6 @@ var (
 func RootLogin(ctx iris.Context) {
 	println("执行登录程序")
 	session := rootsess.Start(ctx)
-	fmt.Println(session)
 
 	//执行验证
 	var npjson structs.ResMP
@@ -41,6 +38,11 @@ func RootLogin(ctx iris.Context) {
 
 	//设置验证状态root为true
 	session.Set("root", true)
+	test, err := session.GetBoolean("root")
+	if err != nil {
+		println(err.Error())
+	}
+	println(test)
 	println("root用户登录，授予权限")
 }
 
@@ -51,15 +53,16 @@ func RootLogout(ctx iris.Context) {
 	//撤销权限
 	session.Set("root", false)
 	//删除session
-	sess.DestroyByID("admin")
+	rootsess.DestroyByID("rootid")
 	//注销成功，返回done
 	ctx.WriteString("done")
 }
 
 //IsRoot -handler 判断用户是否为root的中间件
 func IsRoot(ctx iris.Context) {
-	sessionNow := sess.Start(ctx)
-	auth, err := sess.Start(ctx).GetBoolean("root")
+	thissess := rootsess.Start(ctx)
+	auth, err := thissess.GetBoolean("root")
+
 	if err != nil {
 		println("权限判断出错", err.Error())
 	}

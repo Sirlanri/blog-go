@@ -18,7 +18,7 @@ func secret(ctx iris.Context) {
 	sessionNow := sess.Start(ctx)
 	fmt.Println(sessionNow)
 
-	auth, err := sess.Start(ctx).GetBoolean("authenticated")
+	auth, err := sess.Start(ctx).GetBoolean("root")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -37,7 +37,7 @@ func login(ctx iris.Context) {
 	//执行验证
 
 	//设置验证状态true
-	session.Set("authenticated", true)
+	session.Set("root", true)
 	println(session)
 	ctx.WriteString("成功登录")
 }
@@ -45,7 +45,7 @@ func login(ctx iris.Context) {
 func logout(ctx iris.Context) {
 	session := sess.Start(ctx)
 	//撤销验证
-	session.Set("authenticated", false)
+	session.Set("root", false)
 	//删除session
 	sess.DestroyByID("adminid")
 	ctx.WriteString("已退出")
@@ -66,7 +66,7 @@ func loginp(ctx iris.Context) {
 		return
 	}
 	if infor.Name == "rico" && infor.Password == "123" {
-		session1.Set("authenticated", true)
+		session1.Set("root", true)
 		ctx.WriteString("成功登录")
 		return
 	}
@@ -92,7 +92,7 @@ func getFlash(ctx iris.Context) {
 
 }
 
-func main2() {
+func main() {
 	app := iris.New()
 	app.Get("/secret", secret)
 	app.Get("/login", login)

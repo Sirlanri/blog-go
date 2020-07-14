@@ -53,12 +53,12 @@ func GetFriendDB() (friends []structs.Friend) {
 }
 
 //WriteFriend 将处理好的友链信息写入数据库
-func WriteFriend(f structs.AfterFriend) {
+func WriteFriend(f structs.ResFriend, ping int) {
 	insert, err := db.Prepare(`INSERT INTO friends VALUES (null,?,?,?,?,?,?);`)
 	if err != nil {
 		println("预编译表达式出错", err.Error())
 	}
-	_, err = insert.Exec(f.Picaddress, f.Sitename, f.Introduction, f.Siteaddress, f.Ssl, f.Ping)
+	_, err = insert.Exec(f.PicAddress, f.Sitename, f.Introduction, f.Siteaddress, f.Ssl, ping)
 	if err != nil {
 		println("执行SQL出错", err.Error())
 	}
