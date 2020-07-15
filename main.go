@@ -13,23 +13,24 @@ func main() {
 	app.OnErrorCode(iris.StatusNotFound, notFound)
 
 	app.Logger().SetLevel("debug")
-	corsOptions := cors.Options{
-		AllowedOrigins:   []string{"*"}, //允许全部跨域请求
+	crs := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"}, //允许通过的主机名称
 		AllowCredentials: true,
-	}
-	crs := cors.New(corsOptions)
+	})
 
 	blog := app.Party("blog", crs).AllowMethods(iris.MethodOptions)
+	{
+		blog.Post("/rootlogin", RootLogin)
+		blog.Get("/rootlogout", RootLogout)
+		blog.Get("/getfriends", GetFriends)
+		blog.Get("/refreshms", IsRoot, Refreshms)
+		blog.Post("/addfriend", IsRoot, AddFriend)
+		blog.Post("/updatefriend", IsRoot, UpdateFriend)
+		blog.Post("/uploadpic", IsRoot, UploadPic)
+		blog.Post("/delfriend", IsRoot, DelFriend)
+		blog.HandleDir("/getpics", "./uploadpics")
+	}
 
-	blog.Post("/rootlogin", RootLogin)
-	blog.Get("/rootlogout", RootLogout)
-	blog.Get("/getfriends", GetFriends)
-	blog.Get("/refreshms", IsRoot, Refreshms)
-	blog.Post("/addfriend", IsRoot, AddFriend)
-	blog.Post("/updatefriend", IsRoot, UpdateFriend)
-	blog.Post("/uploadpic", IsRoot, UploadPic)
-	blog.Post("/delfriend", IsRoot, DelFriend)
-	blog.HandleDir("/getpics", "./uploadpics")
 	app.Run(iris.Addr(":9004"))
 
 }
