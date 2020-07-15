@@ -16,7 +16,7 @@ func init() {
 
 //ConnectDB 初始化时，连接数据库
 func ConnectDB() *sql.DB {
-	db, _ = sql.Open("mysql", "root:123456@/blog")
+	db, _ = sql.Open("mysql", "blog:123456@/blog")
 
 	if db.Ping() != nil {
 		println("初始化-数据库-用户/密码/库验证失败", db.Ping().Error())
