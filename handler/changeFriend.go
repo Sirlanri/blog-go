@@ -13,6 +13,7 @@ func UpdateFriend(ctx iris.Context) {
 	err := ctx.ReadJSON(&resfriend)
 	if err != nil {
 		println("前端传入数据不合法", err.Error())
+		return
 	}
 	url := resfriend.Siteaddress
 	dropurl := serves.DropHead(url)
@@ -27,6 +28,7 @@ func DelFriend(ctx iris.Context) {
 	id, err := ctx.GetBody()
 	if err != nil {
 		println("Del-前端数据不合法", err.Error())
+		return
 	}
 	strid := string(id)
 	serves.DelFriendDB(strid)

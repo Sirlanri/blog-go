@@ -13,7 +13,7 @@ func main() {
 	app.OnErrorCode(iris.StatusNotFound, notFound)
 	app.Logger().SetLevel("warn")
 	corsOptions := cors.Options{
-		AllowedOrigins:   []string{"*"}, //允许全部跨域请求
+		AllowedOrigins:   []string{"http://localhost", "https://api.ri-co.cn"}, //允许全部跨域请求
 		AllowCredentials: true,
 	}
 	crs := cors.New(corsOptions)

@@ -16,6 +16,7 @@ func AddFriend(ctx iris.Context) {
 	err := ctx.ReadJSON(&newFriend)
 	if err != nil {
 		println("错误-添加友链-前端传入数据错误", err.Error())
+		return
 	}
 	println("AddFriend Handler处理完毕，转交Serve")
 	serves.AddFriendServe(newFriend)
@@ -45,7 +46,7 @@ func UploadPic(ctx iris.Context) {
 	}
 	defer out.Close()
 	io.Copy(out, file)
-	whole := "http://localhost:8090/blog/getpics/" + fname
+	whole := "http://api.ri-co.cn/blog/getpics/" + fname
 	ctx.WriteString(whole)
 }
 
@@ -55,6 +56,7 @@ func GetPics(ctx iris.Context) {
 	pic, err := os.Open("./uploadpics/" + name)
 	if err != nil {
 		println("查找图片出错 ", name, err.Error())
+		return
 	}
 	defer pic.Close()
 	buff, err := ioutil.ReadAll(pic)
