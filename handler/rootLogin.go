@@ -38,11 +38,6 @@ func RootLogin(ctx iris.Context) {
 
 	//设置验证状态root为true
 	session.Set("root", true)
-	test, err := session.GetBoolean("root")
-	if err != nil {
-		println(err.Error())
-	}
-	println(test)
 	println("root用户登录，授予权限")
 }
 

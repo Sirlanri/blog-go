@@ -95,8 +95,8 @@ func Updatems(datas map[string]int) {
 
 //UpdataFriendDB 修改单个友链后，存入数据库
 func UpdataFriendDB(f structs.ResUpdateFriend) {
-	_, err := db.Exec("update friends set sitename=?, introduction=?,url=?,https=?,ping=? where id=? ",
-		f.Sitename, f.Introduction, f.Siteaddress, f.Ssl, f.Ping, f.ID)
+	_, err := db.Exec("update friends set picaddress=?, sitename=?, introduction=?,url=?,https=?,ping=? where id=? ",
+		f.PicAddress, f.Sitename, f.Introduction, f.Siteaddress, f.Ssl, f.Ping, f.ID)
 	if err != nil {
 		println("写入friend数据库出错", err.Error())
 	}

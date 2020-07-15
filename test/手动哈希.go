@@ -7,12 +7,12 @@ import (
 )
 
 func main3() {
-	fmt.Println(Myhash("123456"))
+	str := "123456"
+	fmt.Println(Myhash(str))
 }
 
 //Myhash 计算密码的哈希值
 func Myhash(pw string) string {
-
 	afterHash := md5.New().Sum([]byte(pw))
 	after64 := base64.StdEncoding.EncodeToString(afterHash)
 	return after64
