@@ -68,12 +68,14 @@ func GetPics(ctx iris.Context) {
 
 //Refreshms -handler 手动刷新友链服务器的延迟
 func Refreshms(ctx iris.Context) {
+	println("开始刷新延迟")
 	links := serves.GetAllAddress()
 	newData := make(map[string]int)
 	for _, link := range links {
 		dropped := serves.DropHead(link)
 		number := serves.Pingms(dropped)
 		newData[link] = number
+		println("正在处理", link, number)
 	}
 	println("ping测量完毕，开始写入数据")
 	serves.Updatems(newData)
