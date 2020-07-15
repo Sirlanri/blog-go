@@ -46,7 +46,7 @@ func UploadPic(ctx iris.Context) {
 	}
 	defer out.Close()
 	io.Copy(out, file)
-	whole := "http://api.ri-co.cn/blog/getpics/" + fname
+	whole := "https://api.ri-co.cn/blog/getpics/" + fname
 	ctx.WriteString(whole)
 }
 

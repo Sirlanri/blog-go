@@ -7,7 +7,7 @@ import (
 	"github.com/sparrc/go-ping"
 )
 
-func main() {
+func main3() {
 	println(pingms("https://google.com"))
 
 }

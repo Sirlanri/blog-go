@@ -6,8 +6,8 @@ import (
 	"fmt"
 )
 
-func main3() {
-	str := "123456"
+func main() {
+	str := ""
 	fmt.Println(Myhash(str))
 }
 
