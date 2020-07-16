@@ -23,7 +23,7 @@ func Pingms(address string) (result int) {
 	pinger, err := ping.NewPinger(address)
 	if err != nil {
 		println(err.Error())
-		//ping不通，默认服务器挂了
+		//域名无法解析（比如被墙），默认服务器挂了
 		result = 1000
 		return
 	}
@@ -34,25 +34,18 @@ func Pingms(address string) (result int) {
 	pinger.Interval = time.Millisecond * 10
 	pinger.Run()
 
-	rev := pinger.PacketsRecv
-	//丢包，就默认服务器挂了
-	if rev < 4 {
-		result = 1000
-		return
-	}
-	sta := pinger.Statistics().Rtts
-
-	totalms := sta[0] + sta[1] + sta[2] + sta[3]
-	totalms.Seconds()
-	result = int(totalms.Milliseconds() / int64(rev))
-	return
+	ave := pinger.Statistics().AvgRtt.Milliseconds()
+	println(address, " ping结果:", ave)
+	return int(ave)
 }
 
-//DropHead 删除网址头部的http，返回可以ping的主机地址
+//DropHead 删除网址头部的http(s)和尾部的子路径，返回可以ping的主机地址
 func DropHead(full string) string {
 	r, _ := regexp.Compile("http://|https://")
 	after := r.ReplaceAllString(full, "")
-	return after
+	r2, _ := regexp.Compile("/.*")
+	after2 := r2.ReplaceAllString(after, "")
+	return after2
 }
 
 //Createid 为图片生成唯一名称
