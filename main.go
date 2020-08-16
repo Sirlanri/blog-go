@@ -28,7 +28,7 @@ func main() {
 		blog.Post("/updatefriend", IsRoot, UpdateFriend)
 		blog.Post("/uploadpic", IsRoot, UploadPic)
 		blog.Post("/delfriend", IsRoot, DelFriend)
-		blog.HandleDir("/getpics", "./uploadpics")
+		blog.HandleDir("/getpics", iris.Dir("./uploadpics"))
 	}
 
 	app.Run(iris.Addr(":9004"))
