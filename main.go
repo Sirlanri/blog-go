@@ -12,7 +12,7 @@ func main() {
 	app := iris.New()
 	app.OnErrorCode(iris.StatusNotFound, notFound)
 
-	app.Logger().SetLevel("debug")
+	app.Logger().SetLevel("warn")
 	crs := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"}, //允许通过的主机名称
 		AllowCredentials: true,
